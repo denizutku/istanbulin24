@@ -1,0 +1,22 @@
+{% extends "layoutbl.html" %}
+{% block title %}Login{% endblock %}
+{% block active_login %}active{% endblock %}
+{% block stylesheet %}login.css{% endblock %}
+{% block content %}
+
+<form class="form-signin">
+    <img class="mb-4" src="/static/images/logo250x67.png" alt="istanbulin24" >
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <label for="inputEmail" class="sr-only">Username</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <label for="inputPassword" class="sr-only">Name and Surname</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Name and Surname" required>
+    <button class="btn btn-outline-primary " type="submit">Login</button>
+    <a role="button" class="btn btn-outline-secondary btn-sm" href="/">Register</a>
+    <p class="mt-5 mb-3 text-muted">&copy; istanbulin24 </p>
+    <a role="button" class="btn btn-outline-secondary btn-sm" href="/">Return to Homepage</a>
+
+  </form>
+{% endblock %}  

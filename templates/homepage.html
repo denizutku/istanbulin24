@@ -1,6 +1,8 @@
-<html>
-    <title>title</title>
-    <body>
-        <h1>Homepage!</h1>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Homepage{% endblock %}
+{% block active_homepage %}active{% endblock %}
+{% block content %}
+    <p>
+        Homepage content
+    </p>
+{% endblock %}
