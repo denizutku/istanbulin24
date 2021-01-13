@@ -1,5 +1,12 @@
 from flask import Flask, render_template
 
+import psycopg2
+
+
+conn = psycopg2.connect(dbname="istanbulin24",user="postgres",password="1",host="localhost")
+
+cursor = conn.cursor()
+
 app = Flask(__name__)
 
 @app.route("/")
