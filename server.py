@@ -3,9 +3,12 @@ from flask import Flask, render_template
 import psycopg2
 
 
-conn = psycopg2.connect(dbname="istanbulin24",user="postgres",password="1",host="localhost")
+# conn = psycopg2.connect(dbname="istanbulin24",user="postgres",password="1",host="localhost")
 
-cursor = conn.cursor()
+# cursor = conn.cursor()
+# cursor.execute("CREATE TABLE test(id serial PRIMARY KEY, name varchar)")
+# cursor.close()
+# conn.close()
 
 app = Flask(__name__)
 
