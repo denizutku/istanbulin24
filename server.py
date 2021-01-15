@@ -3,6 +3,7 @@ from flask import Flask, render_template
 import psycopg2
 from models.database import Database
 from models.user import User
+from models.route import Route
 
 app = Flask(__name__)
 
@@ -12,11 +13,16 @@ def homepage():
     db = Database()
     db.add_user(user)
     # usertest = db.get_user(0)
-    print(usertest.email)
+    # print(usertest.email)
     return render_template("homepage.html")
 
 @app.route("/routes")
 def routes():
+    route = Route(id="0", userid="0",name="test route", description="test description")
+    db = Database()
+    db.add_route(route)
+    routetest = db.get_route(0)
+    print(routetest.description)
     return render_template("routes.html")
 
 @app.route("/newroute")
