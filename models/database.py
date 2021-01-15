@@ -144,4 +144,24 @@ class Database:
     #             cursor.close()
     #     except Exception as err:
     #         print("Update user error: ", err)
-    
+
+
+    ##ACTIVITY
+
+    def get_activity(self,id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT id, name, description, img_url FROM activities WHERE id = %s"
+                data = [id]
+                cursor.execute(statement, data)
+                value = cursor.fetchone()
+                cursor.close()
+                if not value:
+                    return None
+                activity = Activity(value[0], value[1], value[2], value[3])
+                return activity
+        except Exception as err:
+            print("Get activity error: ", err)
+        
+        return None

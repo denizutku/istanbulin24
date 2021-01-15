@@ -4,6 +4,7 @@ import psycopg2
 from models.database import Database
 from models.user import User
 from models.route import Route
+from models.activity import Activity
 
 app = Flask(__name__)
 

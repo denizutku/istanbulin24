@@ -61,7 +61,7 @@ INIT_STATEMENTS = [
     )""",
 
 
-    # """INSERT INTO routes(id, username, password, name, surname, email) VALUES
+    # """INSERT INTO activities(id, name, description, name, surname, email) VALUES
     # (
     #     0,
     #     'deniz',
