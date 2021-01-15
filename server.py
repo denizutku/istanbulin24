@@ -1,19 +1,16 @@
 from flask import Flask, render_template
 
 import psycopg2
-
-
-# conn = psycopg2.connect(dbname="istanbulin24",user="postgres",password="1",host="localhost")
-
-# cursor = conn.cursor()
-# cursor.execute("CREATE TABLE test(id serial PRIMARY KEY, name varchar)")
-# cursor.close()
-# conn.close()
+from models.database import Database
+from models.user import User
 
 app = Flask(__name__)
 
 @app.route("/")
 def homepage():
+    user = User(id="0",username="test",password="test",name="test",surname="test",email="test")
+    db = Database()
+    db.add_user(user)
     return render_template("homepage.html")
 
 @app.route("/routes")
