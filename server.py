@@ -11,6 +11,8 @@ def homepage():
     user = User(id="0",username="test",password="test",name="test",surname="test",email="test")
     db = Database()
     db.add_user(user)
+    # usertest = db.get_user(0)
+    print(usertest.email)
     return render_template("homepage.html")
 
 @app.route("/routes")
