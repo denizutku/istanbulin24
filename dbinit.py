@@ -8,10 +8,11 @@ INIT_STATEMENTS = [
     """DROP TABLE IF EXISTS users cascade""",
     """DROP TABLE IF EXISTS routes cascade""",
     """DROP TABLE IF EXISTS activities cascade""",
+    """DROP TABLE IF EXISTS route_activities cascade""",
 
         """CREATE TABLE IF NOT EXISTS users 
     (
-        id SERIAL NOT NULL PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY,
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR (255) NOT NULL,
         name VARCHAR (255) NOT NULL,
@@ -22,7 +23,7 @@ INIT_STATEMENTS = [
 
     """CREATE TABLE IF NOT EXISTS routes
     (
-        id SERIAL NOT NULL PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY,
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         description VARCHAR (255) NOT NULL,
@@ -32,12 +33,32 @@ INIT_STATEMENTS = [
 
     """CREATE TABLE IF NOT EXISTS activities
     (
-        id SERIAL NOT NULL PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         description VARCHAR (255) NOT NULL,
         img_url VARCHAR (255) NOT NULL
 
     )""",
+
+    """CREATE TABLE IF NOT EXISTS route_activities
+    (
+        activity_id INT NOT NULL,
+        route_id INT NOT NULL,
+        FOREIGN KEY (activity_id) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (route_id) REFERENCES routes(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+    )""",
+
+    """CREATE TABLE IF NOT EXISTS route_score
+    (
+        user_id INT NOT NULL,
+        route_id INT NOT NULL,
+        score INT NOT NULL,
+        FOREIGN KEY (activity_id) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (route_id) REFERENCES routes(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+    )""",
+
 
     # """INSERT INTO routes(id, username, password, name, surname, email) VALUES
     # (
