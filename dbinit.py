@@ -9,6 +9,7 @@ INIT_STATEMENTS = [
     """DROP TABLE IF EXISTS routes cascade""",
     """DROP TABLE IF EXISTS activities cascade""",
     """DROP TABLE IF EXISTS route_activities cascade""",
+    """DROP TABLE IF EXISTS route_score cascade""",
 
         """CREATE TABLE IF NOT EXISTS users 
     (
@@ -44,7 +45,7 @@ INIT_STATEMENTS = [
     (
         activity_id INT NOT NULL,
         route_id INT NOT NULL,
-        FOREIGN KEY (activity_id) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (activity_id) REFERENCES activities(id)ON UPDATE CASCADE ON DELETE CASCADE,
         FOREIGN KEY (route_id) REFERENCES routes(id) ON UPDATE CASCADE ON DELETE CASCADE
 
     )""",
@@ -54,7 +55,7 @@ INIT_STATEMENTS = [
         user_id INT NOT NULL,
         route_id INT NOT NULL,
         score INT NOT NULL,
-        FOREIGN KEY (activity_id) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
         FOREIGN KEY (route_id) REFERENCES routes(id) ON UPDATE CASCADE ON DELETE CASCADE
 
     )""",
