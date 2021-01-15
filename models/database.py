@@ -46,4 +46,37 @@ class Database:
             print("Get user error: ", err)
         
         return None
+
+    def delete_user(self,id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "DELETE FROM users WHERE id = %s"
+                data = [id]
+                cursor.execute(statement, data)
+                cursor.close()
+        except Exception as err:
+            print("Delete user error: ", err)
+
+    def update_user(self, id, attributes, values):
+        attributes_table = {
+            "username": "username",
+            "password": "password",
+            "name": "name",
+            "surname": "surname",
+            "email": "email",
+        }
+
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "UPDATE users SET "
+                for i in range(len(attributes) - 1):
+                    statement += attributes_table[attributes[i]] + " = %s ,"
+                statement += attributes_table[attributes[-1]] + " = %s WHERE id = %s"
+                values.append(id)
+                cursor.execute(statement, values)
+                cursor.close()
+        except Exception as err:
+            print("Update user error: ", err)
     
