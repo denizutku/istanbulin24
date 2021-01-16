@@ -13,7 +13,7 @@ INIT_STATEMENTS = [
 
         """CREATE TABLE IF NOT EXISTS users 
     (
-        id INT NOT NULL PRIMARY KEY,
+        id SERIAL NOT NULL PRIMARY KEY,
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR (255) NOT NULL,
         name VARCHAR (255) NOT NULL,
@@ -24,7 +24,7 @@ INIT_STATEMENTS = [
 
     """CREATE TABLE IF NOT EXISTS routes
     (
-        id INT NOT NULL PRIMARY KEY,
+        id SERIAL NOT NULL PRIMARY KEY,
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         description VARCHAR (255) NOT NULL,
@@ -34,7 +34,7 @@ INIT_STATEMENTS = [
 
     """CREATE TABLE IF NOT EXISTS activities
     (
-        id INT NOT NULL PRIMARY KEY,
+        id SERIAL NOT NULL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         description VARCHAR (255) NOT NULL,
         img_url VARCHAR (255) NOT NULL
