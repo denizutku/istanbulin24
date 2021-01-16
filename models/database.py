@@ -33,18 +33,34 @@ class Database:
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, username, password, name, surname, email FROM users WHERE id = %s"
+                statement = "SELECT * FROM users WHERE id = %s"
                 data = [id]
                 cursor.execute(statement, data)
-                value = cursor.fetchone()
+                user = cursor.fetchone()
                 cursor.close()
-                if not value:
+                if not user:
                     return None
-                user = User(value[0], value[1], value[2], value[3], value[4], value[5])
                 return user
         except Exception as err:
             print("Get user error: ", err)
         
+        return None
+
+    def get_username_by_id(self,id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT username FROM users WHERE id = %s"
+                data = [id]
+                cursor.execute(statement, data)
+                username = cursor.fetchone()
+                cursor.close()
+                if not username:
+                    return None
+                return username
+        except Exception as err:
+            print("Get user error: ", err)
+    
         return None
 
     def get_user_by_username(self,username):
@@ -130,6 +146,18 @@ class Database:
                 return route
         except Exception as err:
             print("Get route error: ", err)
+
+    def get_all_routes(self):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT id, user_id, name, description FROM routes"
+                cursor.execute(statement)
+                cities = cursor.fetchall()
+                cursor.close()
+                return cities
+        except Exception as err:
+            print("Get all route error: ", err)
         
         return None
 

@@ -30,12 +30,13 @@ def homepage():
 
 @app.route("/routes")
 def routes():
-    route = Route(id="0", userid="0",name="test route", description="test description")
     db = Database()
-    db.add_route(route)
-    routetest = db.get_route(0)
-    print(routetest.description)
-    return render_template("routes.html")
+    routes = db.get_all_routes()
+    for i in range(len(routes)):
+        user_id = routes[i][1]
+        username = db.get_username_by_id(user_id)
+        routes[i] = routes[i] + username
+    return render_template("routes.html", routes = routes)
 
 @app.route("/newroute")
 def newroute():

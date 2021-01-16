@@ -70,7 +70,16 @@ INIT_STATEMENTS = [
     """INSERT INTO activities(id, name, description, img_url) VALUES (6, 'activity_name', 'activity_description', 'activity_imgurl')""",
     """INSERT INTO activities(id, name, description, img_url) VALUES (7, 'activity_name', 'activity_description', 'activity_imgurl')""",
     """INSERT INTO activities(id, name, description, img_url) VALUES (8, 'activity_name', 'activity_description', 'activity_imgurl')""",
-    """INSERT INTO activities(id, name, description, img_url) VALUES (9, 'activity_name', 'activity_description', 'activity_imgurl')"""
+    """INSERT INTO activities(id, name, description, img_url) VALUES (9, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO users(id, username, password, name, surname, email) VALUES (7, 'denizutku', '123', 'Deniz Utku', 'Beydogan', 'dub@dub.com')""",
+    """INSERT INTO users(id, username, password, name, surname, email) VALUES (8, 'beydogan', '123', 'Deniz Utku', 'Beydogan', 'dub@dub.com')""",
+    """INSERT INTO users(id, username, password, name, surname, email) VALUES (9, 'test', '123', 'Deniz Utku', 'Beydogan', 'dub@dub.com')""",
+    """INSERT INTO routes(id, user_id, name, description) VALUES (0, 7, 'Route test', 'Route desc')""",
+    """INSERT INTO routes(id, user_id, name, description) VALUES (1, 9, 'Route name1', 'Route desc')""",
+    """INSERT INTO routes(id, user_id, name, description) VALUES (2, 7, 'Route asd', 'Route desc')""",
+    """INSERT INTO routes(id, user_id, name, description) VALUES (3, 8, 'Route 21', 'Route desc')""",
+    """INSERT INTO routes(id, user_id, name, description) VALUES (4, 8, 'Route dsa', 'Route desc')""",
+    """INSERT INTO routes(id, user_id, name, description) VALUES (5, 7, 'Route dgdf', 'Route desc')"""
 
 ]
 
