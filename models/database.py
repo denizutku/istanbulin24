@@ -47,6 +47,24 @@ class Database:
         
         return None
 
+    def get_user_by_username(self,username):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT * FROM users WHERE username = %s"
+                data = [username]
+                cursor.execute(statement, data)
+                value = cursor.fetchone()
+                cursor.close()
+                if not value:
+                    return None
+                user = User(value[0], value[1], value[2], value[3], value[4], value[5])
+                return user
+        except Exception as err:
+            print("Get user by username error: ", err)
+        
+        return None
+
     def delete_user(self,id):
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:

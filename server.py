@@ -1,12 +1,23 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_login import login_user, logout_user, login_required, LoginManager
 
 import psycopg2
 from models.database import Database
 from models.user import User
 from models.route import Route
 from models.activity import Activity
+from forms import LoginForm
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret'
+lm = LoginManager()
+lm.init_app(app)
+# lm.login_view("login")
+
+@lm.user_loader
+def load_user(user_id):
+    return get_user(user_id)
 
 @app.route("/")
 def homepage():
@@ -33,6 +44,22 @@ def newroute():
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.route("/login", methods=["POST"])
+def login_post():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    db = Database()
+    user = db.get_user_by_username(username)
+    
+    if not user:
+        print(username)
+        flash('Wrong!')
+        return render_template("login.html")
+
+    login_user(user)
+    return render_template("homepage.html")
+
 
 @app.route("/register")
 def register():
