@@ -6,8 +6,6 @@ from models.database import Database
 from models.user import User
 from models.route import Route
 from models.activity import Activity
-from forms import LoginForm
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
@@ -17,7 +15,8 @@ lm.init_app(app)
 
 @lm.user_loader
 def load_user(user_id):
-    return get_user(user_id)
+    db = Database()
+    return db.get_user(user_id)
 
 @app.route("/")
 def homepage():
@@ -55,10 +54,15 @@ def login_post():
     if not user:
         print(username)
         flash('Wrong!')
-        return render_template("login.html")
+        return redirect(url_for('login'))
 
     login_user(user)
-    return render_template("homepage.html")
+    return redirect(url_for('homepage'))
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('homepage'))
 
 
 @app.route("/register")

@@ -29,10 +29,15 @@
                   </li>
                   
                 </ul>
-                <a role="button" class="btn btn-outline-light" href="/login">Login</a>
-                <h1>t</h1>
-                <a role="button" class="btn btn-outline-light" href="/register">Register</a>
-
+                {% if current_user.is_authenticated %}
+                  <a role="button" class="btn btn-outline-light" href="/logout">Logout</a>
+                  <h1>t</h1>
+                  <a role="button" class="btn btn-outline-light" href="/profile">Profile</a>
+                {% else %}
+                  <a role="button" class="btn btn-outline-light" href="/login">Login</a>
+                  <h1>t</h1>
+                  <a role="button" class="btn btn-outline-light" href="/register">Register</a>
+                {% endif %}
               </div>
               
             </div>
