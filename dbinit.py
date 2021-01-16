@@ -61,16 +61,17 @@ INIT_STATEMENTS = [
     )""",
 
 
-    # """INSERT INTO activities(id, name, description, name, surname, email) VALUES
-    # (
-    #     0,
-    #     'deniz',
-    #     'deniz',
-    #     'deniz',
-    #     'deniz',
-    #     'deniz'
+    """INSERT INTO activities(id, name, description, img_url) VALUES (0, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (1, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (2, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (3, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (4, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (5, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (6, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (7, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (8, 'activity_name', 'activity_description', 'activity_imgurl')""",
+    """INSERT INTO activities(id, name, description, img_url) VALUES (9, 'activity_name', 'activity_description', 'activity_imgurl')"""
 
-    # )""",
 ]
 
 
