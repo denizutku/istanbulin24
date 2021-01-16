@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, LoginManager
 
 import psycopg2
+from passlib.hash import pbkdf2_sha256 as hasher
 from models.database import Database
 from models.user import User
 from models.route import Route
@@ -20,7 +21,7 @@ def load_user(user_id):
 
 @app.route("/")
 def homepage():
-    user = User(id="0",username="test",password="test",name="test",surname="test",email="test")
+    user = User(id="0",username="test",password=hasher.hash("test"),name="test",surname="test",email="test")
     db = Database()
     db.add_user(user)
     # usertest = db.get_user(0)
@@ -50,10 +51,9 @@ def login_post():
     password = request.form.get("password")
     db = Database()
     user = db.get_user_by_username(username)
-    
-    if not user:
-        print(username)
-        flash('Wrong!')
+
+    if not user or not hasher.verify(password,user.password):
+        flash('Username or password is wrong. Please try again')
         return redirect(url_for('login'))
 
     login_user(user)
