@@ -2,9 +2,60 @@
 {% block title %}New Route{% endblock %}
 {% block active_newroute %}active{% endblock %}
 {% block content %}
-    <p>
-        New route content
-    </p>
+<div class="container" style="max-width: 960px">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/static/images/logo250x67.png">
+        <h2>Create a new route</h2>
+        <p class="lead">From here, you can create a new route!</p>
+      </div>
+      <div class="row g-3">
+        <div>
+          <h4 class="mb-3">Route Information</h4>
+          <form class="needs-validation" action="newroute" method="POST">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="firstName" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Name of your route" required>
+                <div class="invalid-feedback">
+                  Valid name is required.
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="email" class="form-label">Description</label>
+                <input type="text" class="form-control" name="description" required placeholder="Description of your route">
+                <div class="invalid-feedback">
+                  Please enter a valid description.
+                </div>
+              </div>
+  
+              <div class="col-md-5">
+                <label for="country" class="form-label">Activities</label>
+                <select multiple class="form-control" name="activities" id="exampleFormControlSelect2" required>
+                    {% for activity in activities %}
+                    <option value={{activity[0]}}>{{activity[1]}}</option>
+                    {% endfor %}
+                  </select>
+                <div class="invalid-feedback">
+                  Please select atleast one activity.
+                </div>
+              </div>
+  
+            <hr class="my-4">
+
+            <div class="col-md-5">
+                <label for="country" class="form-label">Photos</label>
+            </div>
+
+            <input type="hidden" name="userid" value={{current_user.id}}>
+  
+            <hr class="my-4">
+  
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
+          </form>
+        </div>
+      </div>
+  </div>
 {% endblock %}
 
 

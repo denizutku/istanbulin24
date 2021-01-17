@@ -246,3 +246,17 @@ class Database:
             print("Get activity error: ", err)
         
         return None
+
+    def get_all_activities(self):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT id, name, description, img_url FROM activities"
+                cursor.execute(statement)
+                activities = cursor.fetchall()
+                cursor.close()
+                return activities
+        except Exception as err:
+            print("Get activity error: ", err)
+        
+        return None

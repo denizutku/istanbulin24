@@ -21,11 +21,6 @@ def load_user(user_id):
 
 @app.route("/")
 def homepage():
-    # user = User(id="0",username="test",password=hasher.hash("test"),name="test",surname="test",email="test")
-    # db = Database()
-    # db.add_user(user)
-    # usertest = db.get_user(0)
-    # print(usertest.email)
     return render_template("homepage.html")
 
 @app.route("/routes/<int:route_id>", methods=['GET'])
@@ -47,7 +42,35 @@ def routes():
 
 @app.route("/newroute")
 def newroute():
-    return render_template("new_route.html")
+    db = Database()
+    activities = db.get_all_activities()
+    return render_template("new_route.html", activities = activities)
+
+@app.route("/newroute", methods=['POST'])
+def newroute_post():
+    name = request.form.get("name")
+    description = request.form.get("description")
+    activities = request.form.getlist("activities")
+    userid = request.form.get("userid")
+    try:
+        with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            cursor = connection.cursor()
+            statement = "INSERT INTO routes (user_id, name, description) VALUES (%s, %s, %s)"
+            data = [userid, name, description]
+            cursor.execute(statement, data)
+            for activity in activities:
+                statement = "SELECT id FROM routes WHERE user_id = %s AND name = %s AND description = %s"
+                data = [userid, name, description]
+                cursor.execute(statement, data)
+                value = cursor.fetchone()
+                statement = "INSERT INTO route_activities (activity_id, route_id) VALUES (%s, %s)"
+                data = [activity, value[0]]
+                cursor.execute(statement, data)
+            cursor.close()
+    except Exception as err:
+        print("Add route error: ", err)
+
+    return redirect(url_for('routes'))
 
 @app.route("/login")
 def login():
