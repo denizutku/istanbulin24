@@ -37,7 +37,9 @@
                 <div class="col-md-4">
                     <div class="profile-work">
                         <p>CREATED ROUTES</p>
-                        <a>Route 1</a><br/>
+                        {% for route in routes %}
+                        <a href={{ url_for('route', route_id = route[0]) }}>{{route[2]}}</a><br/>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-8">

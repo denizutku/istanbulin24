@@ -132,7 +132,8 @@ def register_post():
 def user(user_id):
     db = Database()
     user = db.get_user(user_id)
-    return render_template("user.html", user = user)
+    routes = db.get_routes_by_userid(user_id)
+    return render_template("user.html", user = user, routes = routes)
 
 @app.route("/users")
 def users():

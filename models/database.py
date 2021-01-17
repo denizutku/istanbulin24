@@ -176,6 +176,19 @@ class Database:
         
         return None
 
+    def get_routes_by_userid(self,user_id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT * FROM routes WHERE user_id = %s"
+                data = [user_id]
+                cursor.execute(statement, data)
+                routes = cursor.fetchall()
+                cursor.close()
+                return routes
+        except Exception as err:
+            print("Get routes by userid error: ", err)
+
     def delete_route(self,id):
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
