@@ -30,7 +30,10 @@ def homepage():
 
 @app.route("/routes/<int:route_id>", methods=['GET'])
 def route(route_id):
-    return 'route id %s page' %route_id
+    db = Database()
+    route = db.get_route(route_id)
+    user = db.get_user(route.userid)
+    return render_template("route.html", route = route, user = user)
 
 @app.route("/routes")
 def routes():
