@@ -28,6 +28,10 @@ def homepage():
     # print(usertest.email)
     return render_template("homepage.html")
 
+@app.route("/routes/<int:route_id>", methods=['GET'])
+def route(route_id):
+    return 'route id %s page' %route_id
+
 @app.route("/routes")
 def routes():
     db = Database()

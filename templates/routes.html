@@ -21,7 +21,7 @@
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-between">
               <strong class="text-gray-dark">{{route[2]}}</strong>
-              <a href="/route/">Details</a>
+              <a href={{ url_for('route', route_id = route[0]) }}>Details</a>
             </div>
             <span class="d-block">Created by {{route[4]}}</span>
           </div>
