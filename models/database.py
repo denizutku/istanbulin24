@@ -200,7 +200,7 @@ class Database:
         except Exception as err:
             print("Delete user error: ", err)
 
-    def get_route_activities(self,id):
+    def get_route_activities(self,route_id):
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
                 cursor = connection.cursor()
@@ -208,15 +208,14 @@ class Database:
                 data = [route_id]
                 cursor.execute(statement, data)
                 activity_ids = cursor.fetchall()
-                cursor.close()
-                if not activity_ids:
-                    return None
-
                 activities = []
-                for i in range(len(activity_ids)):
-                    db = Database()
-                    activities.append(db.get_activity(i))
-                
+                for activity_id in activity_ids:
+                    statement = "SELECT * FROM activities WHERE id = %s"
+                    data = [activity_id]
+                    cursor.execute(statement, data)
+                    activities.append(cursor.fetchone())
+
+                cursor.close()
                 return activities
         except Exception as err:
             print("Get route error: ", err)

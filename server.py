@@ -28,7 +28,9 @@ def route(route_id):
     db = Database()
     route = db.get_route(route_id)
     user = db.get_user(route.userid)
-    return render_template("route.html", route = route, user = user)
+    activities = db.get_route_activities(route_id)
+    print(activities)
+    return render_template("route.html", route = route, user = user, activities = activities)
 
 @app.route("/routes")
 def routes():

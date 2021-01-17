@@ -37,11 +37,9 @@
                 <div class="col-md-4">
                     <div class="profile-work">
                         <p>ROUTE ACTIVITIES</p>
-                        <a>Activity 1</a><br/>
-                        <a>Activity 2</a><br/>
-                        <a>Activity 3</a><br/>
-                        <a>Activity 4</a><br/>
-                        <a>Activity 5</a><br/>
+                        {% for activity in activities %}
+                        <a>{{activity[1]}}</a><br/>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-8">
