@@ -82,6 +82,20 @@ class Database:
         
         return None
 
+    def get_all_users(self):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT * FROM users"
+                cursor.execute(statement)
+                users = cursor.fetchall()
+                cursor.close()
+                return users
+        except Exception as err:
+            print("Get all user error: ", err)
+        
+        return None
+
     def delete_user(self,id):
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:

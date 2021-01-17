@@ -128,5 +128,17 @@ def register_post():
     return redirect(url_for('login'))
 
 
+@app.route("/users/<int:user_id>", methods=['GET'])
+def user(user_id):
+    db = Database()
+    user = db.get_user(user_id)
+    return render_template("user.html", user = user)
+
+@app.route("/users")
+def users():
+    db = Database()
+    users = db.get_all_users()
+    return render_template("users.html", users = users)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8080,debug=True)
