@@ -173,6 +173,40 @@ class Database:
         except Exception as err:
             print("Delete user error: ", err)
 
+    def get_route_activities(self,id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT activity_id FROM route_activities WHERE route_id = %s"
+                data = [route_id]
+                cursor.execute(statement, data)
+                activity_ids = cursor.fetchall()
+                cursor.close()
+                if not activity_ids:
+                    return None
+
+                activities = []
+                for i in range(len(activity_ids)):
+                    db = Database()
+                    activities.append(db.get_activity(i))
+                
+                return activities
+        except Exception as err:
+            print("Get route error: ", err)
+
+    def add_activity_to_route(self, activity_id, route_id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "INSERT INTO route_activities (activity_id, route_id) VALUES (%s, %s)"
+                data = [activity_id, route_id]
+                cursor.execute(statement, data)
+                cursor.close()
+
+                return activity_id
+        except Exception as err:
+            print("Get route error: ", err)
+
     # def update_route(self, id, attributes, values):
     #     attributes_table = {
     #         "name": "name",
