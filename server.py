@@ -2,6 +2,8 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, LoginManager
 
 import psycopg2 as dbapi2
+import os
+
 from base64 import b64encode
 from passlib.hash import pbkdf2_sha256 as hasher
 from models.database import Database
@@ -159,4 +161,5 @@ def users():
     return render_template("users.html", users = users)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=8080,debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0",port=port,debug=True)
