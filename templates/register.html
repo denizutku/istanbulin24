@@ -1,5 +1,5 @@
 {% extends "layoutbl.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 {% block active_login %}active{% endblock %}
 {% block stylesheet %}login.css{% endblock %}
 {% block content %}
@@ -19,7 +19,7 @@
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
     <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Username" required autofocus name="email">
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus name="email">
     <label for="inputPassword" class="sr-only">Name</label>
     <input type="text" id="inputPassword" class="form-control" placeholder="Name" required name="name">
     <label for="inputPassword" class="sr-only">Surname</label>
@@ -27,7 +27,7 @@
     <label for="inputPassword" class="sr-only">Profile Photo</label>
     <input type="file" id="photo" class="form-control" placeholder="photo" required name="photo">
     <button class="btn btn-outline-primary " type="submit">Register</button>
-    <a role="button" class="btn btn-outline-secondary btn-sm" href="/">Login</a>
+    <a role="button" class="btn btn-outline-secondary btn-sm" href="/login">Login</a>
     <p class="mt-5 mb-3 text-muted">&copy; istanbulin24 </p>
     <a role="button" class="btn btn-outline-secondary btn-sm" href="/">Return to Homepage</a>
 
