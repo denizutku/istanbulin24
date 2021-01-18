@@ -22,7 +22,13 @@ def load_user(user_id):
 
 @app.route("/")
 def homepage():
-    return render_template("homepage.html")
+    db = Database()
+    routes = db.get_all_routes()
+    for i in range(len(routes)):
+        user_id = routes[i][1]
+        username = db.get_username_by_id(user_id)
+        routes[i] = routes[i] + username
+    return render_template("homepage.html", routes = routes)
 
 @app.route("/routes/<int:route_id>", methods=['GET'])
 def route(route_id):
