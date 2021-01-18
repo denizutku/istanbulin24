@@ -8,7 +8,16 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+                        {% if img != None %}
+                        <img src="data:;base64,{{ img }}" style="width:300px;
+                        height:300px;
+                        object-fit:cover;"/>
+                        {% else %}
+                        <img src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" style="width:300px;
+                        height:300px;
+                        object-fit:cover;"/>
+                        saasadsad
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-6">

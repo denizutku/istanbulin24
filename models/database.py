@@ -150,14 +150,14 @@ class Database:
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, user_id, name, description FROM routes WHERE id = %s"
+                statement = "SELECT id, user_id, name, description, img_url FROM routes WHERE id = %s"
                 data = [id]
                 cursor.execute(statement, data)
                 value = cursor.fetchone()
                 cursor.close()
                 if not value:
                     return None
-                route = Route(value[0], value[1], value[2], value[3])
+                route = Route(value[0], value[1], value[2], value[3], value[4])
                 return route
         except Exception as err:
             print("Get route error: ", err)

@@ -29,6 +29,7 @@ INIT_STATEMENTS = [
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         description VARCHAR (255) NOT NULL,
+        img_url BYTEA,
         FOREIGN KEY (user_id) REFERENCES userS(id) ON UPDATE CASCADE ON DELETE CASCADE
 
     )""",

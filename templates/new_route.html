@@ -11,7 +11,7 @@
       <div class="row g-3">
         <div>
           <h4 class="mb-3">Route Information</h4>
-          <form class="needs-validation" action="newroute" method="POST">
+          <form class="needs-validation" action="newroute" method="POST" enctype="multipart/form-data">
             <div class="row g-3">
               <div class="col-sm-6">
                 <label for="firstName" class="form-label">Name</label>
@@ -44,7 +44,8 @@
             <hr class="my-4">
 
             <div class="col-md-5">
-                <label for="country" class="form-label">Photos</label>
+                <label for="country" class="form-label">Route Photo</label>
+                <input type="file" id="photo" class="form-control" placeholder="photo" required name="photo">
             </div>
 
             <input type="hidden" name="userid" value={{current_user.id}}>

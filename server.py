@@ -28,10 +28,13 @@ def homepage():
 def route(route_id):
     db = Database()
     route = db.get_route(route_id)
-    user = db.get_user(route.userid)
+    user = db.get_user(route.user_id)
     activities = db.get_route_activities(route_id)
+    img = None
+    if route.img_url is not None:
+        img = b64encode(route.img_url).decode("UTF-8'")
     print(activities)
-    return render_template("route.html", route = route, user = user, activities = activities)
+    return render_template("route.html", route = route, user = user, activities = activities, img = img)
 
 @app.route("/routes")
 def routes():
@@ -55,11 +58,13 @@ def newroute_post():
     description = request.form.get("description")
     activities = request.form.getlist("activities")
     userid = request.form.get("userid")
+    img_url = request.files["photo"]
+
     try:
         with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
             cursor = connection.cursor()
-            statement = "INSERT INTO routes (user_id, name, description) VALUES (%s, %s, %s)"
-            data = [userid, name, description]
+            statement = "INSERT INTO routes (user_id, name, description, img_url) VALUES (%s, %s, %s, %s)"
+            data = [userid, name, description, img_url.read()]
             cursor.execute(statement, data)
             for activity in activities:
                 statement = "SELECT id FROM routes WHERE user_id = %s AND name = %s AND description = %s"
