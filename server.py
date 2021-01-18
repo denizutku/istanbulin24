@@ -15,16 +15,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
 lm = LoginManager()
 lm.init_app(app)
-# lm.login_view("login")
+url = os.environ.get("DATABASE_URL")
 
 @lm.user_loader
 def load_user(user_id):
-    db = Database()
+    db = Database(url)
     return db.get_user(user_id)
 
 @app.route("/")
 def homepage():
-    db = Database()
+    db = Database(url)
     routes = db.get_all_routes()
     for i in range(len(routes)):
         user_id = routes[i][1]
@@ -34,7 +34,7 @@ def homepage():
 
 @app.route("/routes/<int:route_id>", methods=['GET'])
 def route(route_id):
-    db = Database()
+    db = Database(url)
     route = db.get_route(route_id)
     user = db.get_user(route.user_id)
     activities = db.get_route_activities(route_id)
@@ -46,7 +46,7 @@ def route(route_id):
 
 @app.route("/routes")
 def routes():
-    db = Database()
+    db = Database(url)
     routes = db.get_all_routes()
     for i in range(len(routes)):
         user_id = routes[i][1]
@@ -56,7 +56,7 @@ def routes():
 
 @app.route("/newroute")
 def newroute():
-    db = Database()
+    db = Database(url)
     activities = db.get_all_activities()
     return render_template("new_route.html", activities = activities)
 
@@ -69,7 +69,7 @@ def newroute_post():
     img_url = request.files["photo"]
 
     try:
-        with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+        with dbapi2.connect(url) as connection:
             cursor = connection.cursor()
             statement = "INSERT INTO routes (user_id, name, description, img_url) VALUES (%s, %s, %s, %s)"
             data = [userid, name, description, img_url.read()]
@@ -96,7 +96,7 @@ def login():
 def login_post():
     username = request.form.get("username")
     password = request.form.get("password")
-    db = Database()
+    db = Database(url)
     user = db.get_user_by_username(username)
 
     if not user or not hasher.verify(password, user.password):
@@ -124,7 +124,7 @@ def register_post():
     email = request.form.get("email")
     img_url = request.files["photo"]
 
-    db = Database()
+    db = Database(url)
     user = db.get_user_by_username(username)
 
     if user:
@@ -132,7 +132,7 @@ def register_post():
         return redirect(url_for('register'))
 
     try:
-        with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+        with dbapi2.connect(url) as connection:
             cursor = connection.cursor()
             statement = "INSERT INTO users (username, password, name, surname, email, img_url) VALUES (%s, %s, %s, %s, %s, %s)"
             data = [username, hasher.hash(password), name, surname, email, img_url.read()]
@@ -146,7 +146,7 @@ def register_post():
 
 @app.route("/users/<int:user_id>", methods=['GET'])
 def user(user_id):
-    db = Database()
+    db = Database(url)
     user = db.get_user(user_id)
     img = None
     if user.img_url is not None:
@@ -156,10 +156,9 @@ def user(user_id):
 
 @app.route("/users")
 def users():
-    db = Database()
+    db = Database(url)
     users = db.get_all_users()
     return render_template("users.html", users = users)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0",port=port,debug=True)
+    app.run()

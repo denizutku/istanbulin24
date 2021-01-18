@@ -80,8 +80,8 @@ INIT_STATEMENTS = [
 ]
 
 
-def initialize():
-    with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+def initialize(url):
+    with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
         for statement in INIT_STATEMENTS:
             cursor.execute(statement)
@@ -89,8 +89,5 @@ def initialize():
 
 
 if __name__ == "__main__":
-    # url = 
-    # if url is None:
-    #     print("Usage: DATABASE_URL=url python dbinit.py", file=sys.stderr)
-    #     sys.exit(1)
-    initialize()
+    url = os.getenv("DATABASE_URL")
+    initialize(url)

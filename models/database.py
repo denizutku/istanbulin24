@@ -7,18 +7,18 @@ from models.route_activity import Route_Activity
 import psycopg2 as dbapi2
 
 class Database:
-    def __init__(self):
+    def __init__(self, url):
         self.users = {}
         self.routes = {}
         self.activities = {}
-        # self.url = dbname="postgres",user="postgres",password="1",host="localhost"
+        self.url = url
 
 
     ##USER
 
     def add_user(self, user):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "INSERT INTO users (id, username, password, name, surname, email, img_url) VALUES (%s, %s, %s, %s, %s, %s, %s)"
                 data = [user.id, user.username, user.password, user.name, user.surname, user.email, user.img_url]
@@ -31,7 +31,7 @@ class Database:
         
     def get_user(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT id, username, password, name, surname, email, img_url FROM users WHERE id = %s"
                 data = [id]
@@ -49,7 +49,7 @@ class Database:
 
     def get_username_by_id(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT username FROM users WHERE id = %s"
                 data = [id]
@@ -66,7 +66,7 @@ class Database:
 
     def get_user_by_username(self,username):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT * FROM users WHERE username = %s"
                 data = [username]
@@ -84,7 +84,7 @@ class Database:
 
     def get_all_users(self):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT * FROM users"
                 cursor.execute(statement)
@@ -98,7 +98,7 @@ class Database:
 
     def delete_user(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "DELETE FROM users WHERE id = %s"
                 data = [id]
@@ -117,7 +117,7 @@ class Database:
         }
 
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "UPDATE users SET "
                 for i in range(len(attributes) - 1):
@@ -135,7 +135,7 @@ class Database:
 
     def add_route(self, route):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "INSERT INTO routes (id, userid, name, description) VALUES (%s, %s, %s, %s)"
                 data = [route.id, route.userid, route.name, route.description]
@@ -148,7 +148,7 @@ class Database:
         
     def get_route(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT id, user_id, name, description, img_url FROM routes WHERE id = %s"
                 data = [id]
@@ -164,7 +164,7 @@ class Database:
 
     def get_all_routes(self):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT id, user_id, name, description FROM routes"
                 cursor.execute(statement)
@@ -178,7 +178,7 @@ class Database:
 
     def get_routes_by_userid(self,user_id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT * FROM routes WHERE user_id = %s"
                 data = [user_id]
@@ -191,7 +191,7 @@ class Database:
 
     def delete_route(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "DELETE FROM routes WHERE id = %s"
                 data = [id]
@@ -202,7 +202,7 @@ class Database:
 
     def get_route_activities(self,route_id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT activity_id FROM route_activities WHERE route_id = %s"
                 data = [route_id]
@@ -222,7 +222,7 @@ class Database:
 
     def add_activity_to_route(self, activity_id, route_id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "INSERT INTO route_activities (activity_id, route_id) VALUES (%s, %s)"
                 data = [activity_id, route_id]
@@ -257,7 +257,7 @@ class Database:
 
     def get_activity(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT id, name, description, img_url FROM activities WHERE id = %s"
                 data = [id]
@@ -275,7 +275,7 @@ class Database:
 
     def get_all_activities(self):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT id, name, description, img_url FROM activities"
                 cursor.execute(statement)
