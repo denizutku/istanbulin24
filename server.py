@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, LoginManager
 
 import psycopg2 as dbapi2
+from base64 import b64encode
 from passlib.hash import pbkdf2_sha256 as hasher
 from models.database import Database
 from models.user import User
@@ -108,7 +109,7 @@ def register_post():
     name = request.form.get("name")
     surname = request.form.get("surname")
     email = request.form.get("email")
-
+    img_url = request.files["photo"]
 
     db = Database()
     user = db.get_user_by_username(username)
@@ -120,8 +121,8 @@ def register_post():
     try:
         with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
             cursor = connection.cursor()
-            statement = "INSERT INTO users (username, password, name, surname, email) VALUES (%s, %s, %s, %s, %s)"
-            data = [username, hasher.hash(password), name, surname, email]
+            statement = "INSERT INTO users (username, password, name, surname, email, img_url) VALUES (%s, %s, %s, %s, %s, %s)"
+            data = [username, hasher.hash(password), name, surname, email, img_url.read()]
             cursor.execute(statement, data)
             cursor.close()
     except Exception as err:
@@ -134,8 +135,11 @@ def register_post():
 def user(user_id):
     db = Database()
     user = db.get_user(user_id)
+    img = None
+    if user.img_url is not None:
+        img = b64encode(user.img_url).decode("UTF-8'")
     routes = db.get_routes_by_userid(user_id)
-    return render_template("user.html", user = user, routes = routes)
+    return render_template("user.html", user = user, routes = routes, img = img)
 
 @app.route("/users")
 def users():

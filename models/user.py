@@ -2,13 +2,14 @@ from flask import current_app
 from flask_login import UserMixin
 
 class User(UserMixin):
-    def __init__(self, id, username, password, name, surname, email):
+    def __init__(self, id, username, password, name, surname, email, img_url):
         self.id = id
         self.username = username
         self.password = password
         self.name = name
         self.surname = surname
         self.email = email
+        self.img_url = img_url
         self.active = True
         self.is_admin = False
 

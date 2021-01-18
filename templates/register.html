@@ -4,7 +4,7 @@
 {% block stylesheet %}login.css{% endblock %}
 {% block content %}
 
-<form class="form-signin" action="register" method="POST">
+<form class="form-signin" action="register" method="POST" enctype="multipart/form-data">
     <img class="mb-4" src="/static/images/logo250x67.png" alt="istanbulin24" >
     <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
     {% with messages = get_flashed_messages() %}
@@ -24,6 +24,8 @@
     <input type="text" id="inputPassword" class="form-control" placeholder="Name" required name="name">
     <label for="inputPassword" class="sr-only">Surname</label>
     <input type="text" id="inputPassword" class="form-control" placeholder="Surname" required name="surname">
+    <label for="inputPassword" class="sr-only">Profile Photo</label>
+    <input type="file" id="photo" class="form-control" placeholder="photo" required name="photo">
     <button class="btn btn-outline-primary " type="submit">Register</button>
     <a role="button" class="btn btn-outline-secondary btn-sm" href="/">Login</a>
     <p class="mt-5 mb-3 text-muted">&copy; istanbulin24 </p>

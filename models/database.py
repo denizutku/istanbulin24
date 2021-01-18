@@ -20,8 +20,8 @@ class Database:
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
                 cursor = connection.cursor()
-                statement = "INSERT INTO users (id, username, password, name, surname, email) VALUES (%s, %s, %s, %s, %s, %s)"
-                data = [user.id, user.username, user.password, user.name, user.surname, user.email]
+                statement = "INSERT INTO users (id, username, password, name, surname, email, img_url) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                data = [user.id, user.username, user.password, user.name, user.surname, user.email, user.img_url]
                 cursor.execute(statement, data)
                 cursor.close()
         except Exception as err:
@@ -33,14 +33,14 @@ class Database:
         try:
             with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, username, password, name, surname, email FROM users WHERE id = %s"
+                statement = "SELECT id, username, password, name, surname, email, img_url FROM users WHERE id = %s"
                 data = [id]
                 cursor.execute(statement, data)
                 value = cursor.fetchone()
                 cursor.close()
                 if not value:
                     return None
-                user = User(value[0], value[1], value[2], value[3], value[4], value[5])
+                user = User(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
                 return user
         except Exception as err:
             print("Get user error: ", err)
@@ -75,7 +75,7 @@ class Database:
                 cursor.close()
                 if not value:
                     return None
-                user = User(value[0], value[1], value[2], value[3], value[4], value[5])
+                user = User(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
                 return user
         except Exception as err:
             print("Get user by username error: ", err)
