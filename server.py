@@ -89,7 +89,7 @@ def newroute_post():
 
 @app.route("/routes/<int:route_id>/update", methods=['GET'])
 def route_update(route_id):
-    db = Database()
+    db = Database(url)
     route = db.get_route(route_id)
     user = db.get_user(route.user_id)
     activities = db.get_all_activities()
