@@ -272,6 +272,7 @@ class Database:
                 for x in scores:
                     score = score + x[0]
                 score = (score/len(scores))
+                score = round(score, 2)
                 cursor.close()
                 return score
 
