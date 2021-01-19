@@ -131,6 +131,12 @@ def route_update_save(route_id):
 
     return redirect(url_for('route', route_id = route_id))
 
+@app.route("/routes/<int:route_id>/delete")
+def route_delete(route_id):
+    db = Database(url)
+    route = db.delete_route(route_id)
+    return redirect(url_for('routes'))
+
 @app.route("/login")
 def login():
     return render_template("login.html")
