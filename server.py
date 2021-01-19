@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_login import login_user, logout_user, login_required, LoginManager, current_user
 
 import psycopg2 as dbapi2
@@ -24,13 +24,16 @@ def load_user(user_id):
 
 @app.route("/")
 def homepage():
+    username = "Guest"
+    if session:
+        username = session['username']
     db = Database(url)
     routes = db.get_all_routes()
     for i in range(len(routes)):
         user_id = routes[i][1]
         username = db.get_username_by_id(user_id)
         routes[i] = routes[i] + username
-    return render_template("homepage.html", routes = routes)
+    return render_template("homepage.html", routes = routes, username = username)
 
 @app.route("/routes/<int:route_id>", methods=['GET'])
 def route(route_id):
@@ -159,6 +162,7 @@ def login():
 
 @app.route("/login", methods=["POST"])
 def login_post():
+    session['username'] = request.form.get("username")
     username = request.form.get("username")
     password = request.form.get("password")
     db = Database(url)
@@ -173,6 +177,7 @@ def login_post():
 
 @app.route("/logout")
 def logout():
+    session.pop('username', None)
     logout_user()
     return redirect(url_for('homepage'))
 
