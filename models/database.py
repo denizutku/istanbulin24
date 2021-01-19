@@ -256,6 +256,23 @@ class Database:
         
         return None
 
+    def get_activity_name_with_image(self,id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT name FROM activities WHERE id = %s UNION SELECT image_url FROM activity_image WHERE activity_id = %s"
+                data = [id, id]
+                cursor.execute(statement, data)
+                value = cursor.fetchall()
+                cursor.close()
+                if not value:
+                    return None
+                return value
+        except Exception as err:
+            print("Get activity with image error: ", err)
+        
+        return None
+
     def get_all_activities(self):
         try:
             with dbapi2.connect(self.url) as connection:
