@@ -72,7 +72,7 @@ INIT_STATEMENTS = [
 
     )""",
 
-       """INSERT INTO users(id, username, password, name, surname, email, is_admin) VALUES (0, 'admin', '$pbkdf2-sha256$29000$fk/JmZMy5vyfE.KcEyLknA$rnGnO5mkHY/m8KH0tWm0TcufT.rqOx8Xe0F44tqBqGk', 'Admin Name', 'Admin Surname', 'admin@admin,com', True)""",
+       """INSERT INTO users(id, username, password, name, surname, email, is_admin) VALUES (0, 'admin', '$pbkdf2-sha256$29000$fk/JmZMy5vyfE.KcEyLknA$rnGnO5mkHY/m8KH0tWm0TcufT.rqOx8Xe0F44tqBqGk', 'Admin Name', 'Admin Surname', 'admin@admin.com', True)""",
 
 
    """INSERT INTO activities(id, name, description) VALUES (0, 'Kadıköy-Beşiktaş Vapuruna Bin', 'Boğaz hattında çalışan vapurlardan birine binmek İstanbul’da yapılacak en güzel, en ucuz ve en keyifli aktivitelerden biri. Eğer Anadolu yakasında iseniz Kadıköy-Beşiktaş vapuruna binip Beşiktaş’a varıncaya kadar, İstanbul’da görülmesi gereken yerlerden Haydarpaşa Garı’nı, Dolmabahçe ve Topkapı Sarayları’nı, Galata Kulesi’ni ve kıyılardaki önemli sarayları İstanbul Boğazı’nın ortasından izleyebilirsiniz.')""",
