@@ -24,6 +24,9 @@
               <a href={{ url_for('user', user_id = user[0]) }}>See Profile</a>
             </div>
             <span class="d-block">{{user[3]}} {{user[4]}}</span>
+            {% if is_admin %}
+              <a href={{ url_for('delete_user', user_id = user[0]) }}>Delete User</a>
+            {% endif %}
           </div>
         </div>
         {% endfor %}

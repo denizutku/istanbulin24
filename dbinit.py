@@ -21,7 +21,8 @@ INIT_STATEMENTS = [
         name VARCHAR (255) NOT NULL,
         surname VARCHAR (255) NOT NULL,
         email VARCHAR (255) NOT NULL,
-        img_url BYTEA
+        img_url BYTEA,
+        is_admin BOOLEAN NOT NULL
 
     )""",
 

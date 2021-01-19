@@ -20,8 +20,8 @@ class Database:
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
-                statement = "INSERT INTO users (id, username, password, name, surname, email, img_url) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-                data = [user.id, user.username, user.password, user.name, user.surname, user.email, user.img_url]
+                statement = "INSERT INTO users (id, username, password, name, surname, email, img_url, is_admin) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                data = [user.id, user.username, user.password, user.name, user.surname, user.email, user.img_url, False]
                 cursor.execute(statement, data)
                 cursor.close()
         except Exception as err:
@@ -33,14 +33,14 @@ class Database:
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, username, password, name, surname, email, img_url FROM users WHERE id = %s"
+                statement = "SELECT id, username, password, name, surname, email, img_url, is_admin FROM users WHERE id = %s"
                 data = [id]
                 cursor.execute(statement, data)
                 value = cursor.fetchone()
                 cursor.close()
                 if not value:
                     return None
-                user = User(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
+                user = User(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7])
                 return user
         except Exception as err:
             print("Get user error: ", err)
@@ -75,7 +75,7 @@ class Database:
                 cursor.close()
                 if not value:
                     return None
-                user = User(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
+                user = User(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7])
                 return user
         except Exception as err:
             print("Get user by username error: ", err)
@@ -114,6 +114,7 @@ class Database:
             "name": "name",
             "surname": "surname",
             "email": "email",
+            "is_admin": "is_admin",
         }
 
         try:
@@ -128,6 +129,19 @@ class Database:
                 cursor.close()
         except Exception as err:
             print("Update user error: ", err)
+
+    def is_user_admin(self,user_id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "SELECT is_admin FROM users WHERE id = %s"
+                data = [user_id]
+                cursor.execute(statement, data)
+                value = cursor.fetchone()[0]
+                cursor.close()
+                return value                
+        except Exception as err:
+            print("Get user is_admin error: ", err)
 
 
 

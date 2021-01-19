@@ -194,8 +194,8 @@ def register_post():
     try:
         with dbapi2.connect(url) as connection:
             cursor = connection.cursor()
-            statement = "INSERT INTO users (username, password, name, surname, email, img_url) VALUES (%s, %s, %s, %s, %s, %s)"
-            data = [username, hasher.hash(password), name, surname, email, img_url.read()]
+            statement = "INSERT INTO users (username, password, name, surname, email, img_url, is_admin) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            data = [username, hasher.hash(password), name, surname, email, img_url.read(), False]
             cursor.execute(statement, data)
             cursor.close()
     except Exception as err:
@@ -209,10 +209,11 @@ def user(user_id):
     db = Database(url)
     user = db.get_user(user_id)
     img = None
+    is_admin = db.is_user_admin(current_user.id)
     if user.img_url is not None:
         img = b64encode(user.img_url).decode("UTF-8'")
     routes = db.get_routes_by_userid(user_id)
-    return render_template("user.html", user = user, routes = routes, img = img)
+    return render_template("user.html", user = user, routes = routes, img = img, is_admin = is_admin)
 
 
 @app.route("/users/<int:user_id>/update", methods=['GET'])
@@ -249,7 +250,14 @@ def user_update_save(user_id):
 def users():
     db = Database(url)
     users = db.get_all_users()
-    return render_template("users.html", users = users)
+    is_admin = db.is_user_admin(current_user.id)
+    return render_template("users.html", users = users, is_admin = is_admin)
+
+@app.route("/users/<int:user_id>/delete", methods=['GET'])
+def delete_user(user_id):
+    db = Database()
+    db.delete_user(user_id)
+    return redirect(url_for('users'))
 
 if __name__ == "__main__":
     app.run()
