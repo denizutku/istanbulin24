@@ -302,7 +302,7 @@ class Database:
 
     ##route_Activities
 
-        def get_route_activities(self,route_id):
+    def get_route_activities(self,route_id):
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
