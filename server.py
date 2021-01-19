@@ -77,6 +77,21 @@ def newroute_post():
     activities = request.form.getlist("activities")
     userid = request.form.get("userid")
     img_url = request.files["photo"]
+    filename = request.files["photo"].filename
+    file_extension = False
+
+    if ".png" in filename:
+        file_extension = True
+    if ".jpeg" in filename:
+        file_extension = True
+    if ".jpg" in filename:
+        file_extension = True
+
+    print(file_extension)
+
+    if not file_extension:
+        flash('Proper image extensions: PNG/JPG/JPEG')
+        return redirect(url_for('newroute'))
 
     try:
         with dbapi2.connect(url) as connection:
@@ -193,6 +208,21 @@ def register_post():
     surname = request.form.get("surname")
     email = request.form.get("email")
     img_url = request.files["photo"]
+    filename = request.files["photo"].filename
+    file_extension = False
+
+    if ".png" in filename:
+        file_extension = True
+    if ".jpeg" in filename:
+        file_extension = True
+    if ".jpg" in filename:
+        file_extension = True
+
+    print(file_extension)
+
+    if not file_extension:
+        flash('Proper image extensions: PNG/JPG/JPEG')
+        return redirect(url_for('register'))
 
     db = Database(url)
     user = db.get_user_by_username(username)
