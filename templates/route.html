@@ -57,41 +57,53 @@
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Username</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{user.username}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Name Surname</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{user.name}} {{user.surname}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{user.email}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Profile</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href={{ url_for('user', user_id = current_user.id) }}>Go to profile</a>                                           
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Username</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.username}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name Surname</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.name}} {{user.surname}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.email}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Profile</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href={{ url_for('user', user_id = current_user.id) }}>Go to profile</a>                                           
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+                <div>
+                    <p>ACTIVITY PHOTOS</p>
+                        {% for activity in activities %}
+                    <img src={{activity[3]}} style="width:300px;
+                    height:300px;
+                    object-fit:cover;">
+                        {% endfor %}
+                </div>
+                
+
             </div>
         </form>           
     </div>

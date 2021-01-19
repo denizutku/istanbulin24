@@ -210,8 +210,8 @@ class Database:
                 activity_ids = cursor.fetchall()
                 activities = []
                 for activity_id in activity_ids:
-                    statement = "SELECT * FROM activities WHERE id = %s"
-                    data = [activity_id]
+                    statement = "SELECT id, name, description, activity_image.image_url FROM activities INNER JOIN activity_image ON %s = activity_image.activity_id AND id = %s"
+                    data = [activity_id, activity_id]
                     cursor.execute(statement, data)
                     activities.append(cursor.fetchone())
 
