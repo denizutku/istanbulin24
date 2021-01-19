@@ -28,6 +28,9 @@
               {% endif %}
             </div>
             <span class="d-block">Created by {{route[4]}}</span>
+            {% if is_admin %}
+              <a href={{ url_for('route_delete', route_id = route[0]) }}>Delete Route</a>
+              {% endif %}
           </div>
         </div>
         {% endfor %}
