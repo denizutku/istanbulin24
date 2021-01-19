@@ -200,7 +200,109 @@ class Database:
         except Exception as err:
             print("Delete user error: ", err)
 
-    def get_route_activities(self,route_id):
+    def update_route(self, id, attributes, values):
+        attributes_table = {
+            "user_id": "user_id",
+            "name": "name",
+            "description": "description",
+            "img_url": "img_url"
+        }
+
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "UPDATE routes SET "
+                for i in range(len(attributes) - 1):
+                    statement += attributes_table[attributes[i]] + " = %s ,"
+                statement += attributes_table[attributes[-1]] + " = %s WHERE id = %s"
+                values.append(id)
+                cursor.execute(statement, values)
+                cursor.close()
+        except Exception as err:
+            print("Update user error: ", err)
+
+
+    ##ACTIVITY
+
+    def get_activity(self,id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "SELECT id, name, description FROM activities WHERE id = %s"
+                data = [id]
+                cursor.execute(statement, data)
+                value = cursor.fetchone()
+                cursor.close()
+                if not value:
+                    return None
+                activity = Activity(value[0], value[1], value[2])
+                return activity
+        except Exception as err:
+            print("Get activity error: ", err)
+        
+        return None
+
+    def get_all_activities(self):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "SELECT id, name, description FROM activities"
+                cursor.execute(statement)
+                activities = cursor.fetchall()
+                cursor.close()
+                return activities
+        except Exception as err:
+            print("Get activity error: ", err)
+        
+        return None
+
+    def add_activity(self,activity):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "INSERT INTO activities (id, name, description) VALUES (%s, %s, %s)"
+                data = [activity.id, activity.name, activity.description]
+                cursor.execute(statement, data)
+                cursor.close()
+        except Exception as err:
+            print("Add route error: ", err)
+        
+        return activity
+
+    def update_activity(self, id, attributes, values):
+        attributes_table = {
+            "name": "name",
+            "description": "description",
+        }
+
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "UPDATE activities SET "
+                for i in range(len(attributes) - 1):
+                    statement += attributes_table[attributes[i]] + " = %s ,"
+                statement += attributes_table[attributes[-1]] + " = %s WHERE id = %s"
+                values.append(id)
+                cursor.execute(statement, values)
+                cursor.close()
+        except Exception as err:
+            print("Update user error: ", err)
+
+    def delete_activity(self,id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "DELETE FROM activities WHERE id = %s"
+                data = [id]
+                cursor.execute(statement, data)
+                cursor.close()
+        except Exception as err:
+            print("Delete user error: ", err)
+
+
+    ##route_Activities
+
+        def get_route_activities(self,route_id):
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
@@ -232,6 +334,40 @@ class Database:
                 return activity_id
         except Exception as err:
             print("Get route error: ", err)
+
+    def update_route_activity(self, id, attributes, values):
+        attributes_table = {
+            "activity_id": "activity_id",
+            "route_id": "route_id",
+        }
+
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "UPDATE route_activities SET "
+                for i in range(len(attributes) - 1):
+                    statement += attributes_table[attributes[i]] + " = %s ,"
+                statement += attributes_table[attributes[-1]] + " = %s WHERE id = %s"
+                values.append(id)
+                cursor.execute(statement, values)
+                cursor.close()
+        except Exception as err:
+            print("Update route activity error: ", err)
+
+
+    def delete_route_activity(self,route_id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "DELETE FROM route_activities WHERE id = %s"
+                data = [route_id]
+                cursor.execute(statement, data)
+                cursor.close()
+        except Exception as err:
+            print("Delete route_activities error: ", err)
+
+
+    ##route_Score
 
     def rate_route(self, route_id, user_id, score):
         try:
@@ -275,56 +411,34 @@ class Database:
         except Exception as err:
             print("Get route score error: ", err)
 
-    # def update_route(self, id, attributes, values):
-    #     attributes_table = {
-    #         "name": "name",
-    #         "description": "description",
-    #     }
+    def update_route_score(self, id, attributes, values):
+        attributes_table = {
+            "user_id": "user_id",
+            "route_id": "route_id",
+            "score": "score"
+        }
 
-    #     try:
-    #         with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
-    #             cursor = connection.cursor()
-    #             statement = "UPDATE routes SET "
-    #             for i in range(len(attributes) - 1):
-    #                 statement += attributes_table[attributes[i]] + " = %s ,"
-    #             statement += attributes_table[attributes[-1]] + " = %s WHERE id = %s"
-    #             values.append(id)
-    #             cursor.execute(statement, values)
-    #             cursor.close()
-    #     except Exception as err:
-    #         print("Update user error: ", err)
-
-
-    ##ACTIVITY
-
-    def get_activity(self,id):
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, name, description FROM activities WHERE id = %s"
-                data = [id]
+                statement = "UPDATE route_activities SET "
+                for i in range(len(attributes) - 1):
+                    statement += attributes_table[attributes[i]] + " = %s ,"
+                statement += attributes_table[attributes[-1]] + " = %s WHERE id = %s"
+                values.append(id)
+                cursor.execute(statement, values)
+                cursor.close()
+        except Exception as err:
+            print("Update route activity error: ", err)
+
+
+    def delete_route_score(self, user_id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "DELETE FROM route_score WHERE id = %s"
+                data = [user_id]
                 cursor.execute(statement, data)
-                value = cursor.fetchone()
                 cursor.close()
-                if not value:
-                    return None
-                activity = Activity(value[0], value[1], value[2])
-                return activity
         except Exception as err:
-            print("Get activity error: ", err)
-        
-        return None
-
-    def get_all_activities(self):
-        try:
-            with dbapi2.connect(self.url) as connection:
-                cursor = connection.cursor()
-                statement = "SELECT id, name, description FROM activities"
-                cursor.execute(statement)
-                activities = cursor.fetchall()
-                cursor.close()
-                return activities
-        except Exception as err:
-            print("Get activity error: ", err)
-        
-        return None
+            print("Delete route_activities error: ", err)
