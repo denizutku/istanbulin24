@@ -260,22 +260,5 @@ def delete_user(user_id):
     return redirect(url_for('users'))
 
 if __name__ == "__main__":
-
-    username = "admin"
-    password = "123"
-    name = "admin name"
-    surname = "admin surname"
-    email = "admin@admin.com"
-
-    try:
-        with dbapi2.connect(url) as connection:
-            cursor = connection.cursor()
-            statement = "INSERT INTO users (username, password, name, surname, email, is_admin) VALUES (%s, %s, %s, %s, %s, %s)"
-            data = [username, hasher.hash(password), name, surname, email, True]
-            cursor.execute(statement, data)
-            cursor.close()
-    except Exception as err:
-        print("Add admin error: ", err)
-
     app.run()
 
