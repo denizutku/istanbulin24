@@ -203,6 +203,19 @@ class Database:
         except Exception as err:
             print("Get routes by userid error: ", err)
 
+    def get_routename_activityid_activity_name(self,route_id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "SELECT routes.name, route_activities.activity_id, activities.name FROM routes INNER JOIN route_activities ON routes.id = route_activities.route_id INNER JOIN activities ON route_activities.activity_id = activities.id WHERE routes.id = %s"
+                data = [route_id]
+                cursor.execute(statement, data)
+                routes = cursor.fetchall()
+                cursor.close()
+                return routes
+        except Exception as err:
+            print("Get route name activityid activity name error: ", err)
+
     def delete_route(self,id):
         try:
             with dbapi2.connect(self.url) as connection:
@@ -258,7 +271,7 @@ class Database:
 
     def get_activity_name_with_image(self,id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT name FROM activities WHERE id = %s UNION SELECT image_url FROM activity_image WHERE activity_id = %s"
                 data = [id, id]
