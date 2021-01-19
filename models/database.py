@@ -233,6 +233,33 @@ class Database:
         except Exception as err:
             print("Get route error: ", err)
 
+    def rate_route(self, route_id, user_id, score):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "INSERT INTO route_score (user_id, route_id, score) VALUES (%s, %s, %s)"
+                data = [user_id, route_id, score]
+                cursor.execute(statement, data)
+                cursor.close()
+
+        except Exception as err:
+            print("Rate route error: ", err)
+
+    def check_user_rated_route(self, route_id, user_id):
+        try:
+            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+                cursor = connection.cursor()
+                statement = "SELECT * FROM route_score WHERE user_id = %s AND route_id = %s"
+                data = [user_id, route_id]
+                cursor.execute(statement, data)
+                if not cursor.fetchall():
+                    return False
+                cursor.close()
+                return True
+
+        except Exception as err:
+            print("Rate route error: ", err)
+
     # def update_route(self, id, attributes, values):
     #     attributes_table = {
     #         "name": "name",
