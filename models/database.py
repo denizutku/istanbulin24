@@ -259,14 +259,14 @@ class Database:
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, name, description, img_url FROM activities WHERE id = %s"
+                statement = "SELECT id, name, description FROM activities WHERE id = %s"
                 data = [id]
                 cursor.execute(statement, data)
                 value = cursor.fetchone()
                 cursor.close()
                 if not value:
                     return None
-                activity = Activity(value[0], value[1], value[2], value[3])
+                activity = Activity(value[0], value[1], value[2])
                 return activity
         except Exception as err:
             print("Get activity error: ", err)
@@ -277,7 +277,7 @@ class Database:
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
-                statement = "SELECT id, name, description, img_url FROM activities"
+                statement = "SELECT id, name, description FROM activities"
                 cursor.execute(statement)
                 activities = cursor.fetchall()
                 cursor.close()
