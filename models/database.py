@@ -260,6 +260,24 @@ class Database:
         except Exception as err:
             print("Rate route error: ", err)
 
+    def get_route_score(self, route_id):
+        try:
+            with dbapi2.connect(self.url) as connection:
+                cursor = connection.cursor()
+                statement = "SELECT score FROM route_score WHERE route_id = %s"
+                data = [route_id]
+                cursor.execute(statement, data)
+                scores = cursor.fetchall()
+                score = 0
+                for x in scores:
+                    score = score + x[0]
+                score = (score/len(scores))
+                cursor.close()
+                return score
+
+        except Exception as err:
+            print("Get route score error: ", err)
+
     # def update_route(self, id, attributes, values):
     #     attributes_table = {
     #         "name": "name",

@@ -28,7 +28,7 @@
                             <h6>
                                 {{route.description}}
                             </h6>
-                            <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                            <p class="proile-rating">ROUTE SCORE : <span>{{score}}/5.0</span></p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Route Activities</a>
@@ -46,6 +46,7 @@
 
         {% if not is_rated %}
         <div class="rate">
+            <p>Rate this route:</p>
             <form class="needs-validation" action="rate" method="POST">
                 <input type="radio" id="star5" name="rate" value="5" />
                 <label for="star5" title="text">5 stars</label>
@@ -58,7 +59,8 @@
                 <input type="radio" id="star1" name="rate" value="1" />
                 <input type="hidden" id="star1" name="user_id" value={{current_user.id}} />
                 <label for="star1" title="text">1 star</label>
-                <button type="submit">save</button>
+            </br>
+                <button class="btn btn-lg btn-outline-secondary" type="submit">save</button>
             </form>
         </div>
         {% endif %}
