@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, login_required, LoginManager
+from flask_login import login_user, logout_user, login_required, LoginManager, current_user
 
 import psycopg2 as dbapi2
 import os
@@ -39,9 +39,10 @@ def route(route_id):
     user = db.get_user(route.user_id)
     activities = db.get_route_activities(route_id)
     img = None
+    is_rated_by_curr_user = db.check_user_rated_route(route_id, current_user.id)
     if route.img_url is not None:
         img = b64encode(route.img_url).decode("UTF-8'")
-    return render_template("route.html", route = route, user = user, activities = activities, img = img)
+    return render_template("route.html", route = route, user = user, activities = activities, img = img, is_rated = is_rated_by_curr_user)
 
 @app.route("/routes")
 def routes():
@@ -136,6 +137,14 @@ def route_delete(route_id):
     db = Database(url)
     route = db.delete_route(route_id)
     return redirect(url_for('routes'))
+
+@app.route("/routes/<int:route_id>", methods=["POST"])
+def route_rate(route_id):
+    score = request.form.get("rate")
+    user_id = request.form.get("user_id")
+    db = Database(url)
+    db.rate_route(route_id,user_id,score)
+    return redirect(url_for('route', route_id = route_id))
 
 @app.route("/login")
 def login():

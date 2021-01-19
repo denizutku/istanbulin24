@@ -53,6 +53,16 @@ INIT_STATEMENTS = [
 
     )""",
 
+    """CREATE TABLE IF NOT EXISTS route_score
+    (
+        user_id INT NOT NULL,
+        route_id INT NOT NULL,
+        score INT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id)ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (route_id) REFERENCES routes(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+    )""",
+
     """CREATE TABLE IF NOT EXISTS activity_image
     (
         activity_id INT NOT NULL,
