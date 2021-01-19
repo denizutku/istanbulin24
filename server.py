@@ -41,7 +41,6 @@ def route(route_id):
     img = None
     if route.img_url is not None:
         img = b64encode(route.img_url).decode("UTF-8'")
-    print(activities)
     return render_template("route.html", route = route, user = user, activities = activities, img = img)
 
 @app.route("/routes")
@@ -74,6 +73,53 @@ def newroute_post():
             statement = "INSERT INTO routes (user_id, name, description, img_url) VALUES (%s, %s, %s, %s)"
             data = [userid, name, description, img_url.read()]
             cursor.execute(statement, data)
+            for activity in activities:
+                statement = "SELECT id FROM routes WHERE user_id = %s AND name = %s AND description = %s"
+                data = [userid, name, description]
+                cursor.execute(statement, data)
+                value = cursor.fetchone()
+                statement = "INSERT INTO route_activities (activity_id, route_id) VALUES (%s, %s)"
+                data = [activity, value[0]]
+                cursor.execute(statement, data)
+            cursor.close()
+    except Exception as err:
+        print("Add route error: ", err)
+
+    return redirect(url_for('routes'))
+
+@app.route("/routes/<int:route_id>/update", methods=['GET'])
+def route_update(route_id):
+    db = Database()
+    route = db.get_route(route_id)
+    user = db.get_user(route.user_id)
+    activities = db.get_all_activities()
+    img = None
+    curr_userid = None
+    if current_user.id is not None:
+        curr_userid = current_user.id
+    if route.img_url is not None:
+        img = b64encode(route.img_url).decode("UTF-8'")
+    return render_template("route_update.html", route = route, user = user, activities = activities, img = img, curr_userid = curr_userid)
+
+@app.route("/routes/<int:route_id>/updateroute", methods=['POST'])
+def route_update_save(route_id):
+    name = request.form.get("name")
+    description = request.form.get("description")
+    activities = request.form.getlist("activities")
+    userid = request.form.get("userid")
+    img_url = request.files["photo"]
+
+    try:
+        with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            cursor = connection.cursor()
+            statement = "UPDATE routes SET user_id = %s, name = %s, description = %s , img_url = %s WHERE id = %s"
+            data = [userid, name, description, img_url.read(),route_id]
+            cursor.execute(statement, data)
+
+            statement = "DELETE FROM route_activities WHERE route_id = %s"
+            data = [route_id]
+            cursor.execute(statement, data)
+
             for activity in activities:
                 statement = "SELECT id FROM routes WHERE user_id = %s AND name = %s AND description = %s"
                 data = [userid, name, description]

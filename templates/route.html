@@ -39,7 +39,7 @@
                 {% if current_user.is_authenticated %}
                     {% if current_user.id == route.user_id %}
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Route"/>
+                        <a role="button" class="btn btn-sm btn-outline-secondary" href={{ url_for('route_update', route_id = route.id) }}>Edit Route</a>
                     </div>
                     {% endif %}
                 {% endif %}
