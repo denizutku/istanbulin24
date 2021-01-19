@@ -107,7 +107,7 @@ def route_update_save(route_id):
     img_url = request.files["photo"]
 
     try:
-        with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+        with dbapi2.connect(url) as connection:
             cursor = connection.cursor()
             statement = "UPDATE routes SET user_id = %s, name = %s, description = %s , img_url = %s WHERE id = %s"
             data = [userid, name, description, img_url.read(),route_id]
@@ -129,7 +129,7 @@ def route_update_save(route_id):
     except Exception as err:
         print("Add route error: ", err)
 
-    return redirect(url_for('routes'))
+    return redirect(url_for('route', route_id = route_id))
 
 @app.route("/login")
 def login():
