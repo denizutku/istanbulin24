@@ -40,12 +40,15 @@ def route(route_id):
     activities = db.get_route_activities(route_id)
     score = db.get_route_score(route_id)
     img = None
+    curr_userid = None
     is_admin = db.is_user_admin(current_user.id)
+    if current_user.id is not None:
+        curr_userid = current_user.id
     is_rated_by_curr_user = db.check_user_rated_route(route_id, current_user.id)
     if route.img_url is not None:
         img = b64encode(route.img_url).decode("UTF-8'")
     return render_template("route.html", route = route, user = user, activities = activities,
-     img = img, is_rated = is_rated_by_curr_user, score = score, is_admin = is_admin)
+     img = img, is_rated = is_rated_by_curr_user, score = score, is_admin = is_admin, curr_userid = curr_userid)
 
 @app.route("/routes")
 def routes():
