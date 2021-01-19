@@ -24,10 +24,10 @@
                   <li class="nav-item">
                     <a class="nav-link {% block active_homepage %}{% endblock %}" href="/">Homepage</a>
                   </li>
+                  {% if current_user.is_authenticated %}
                   <li class="nav-item">
                     <a class="nav-link {% block active_routes %}{% endblock %}" href="/routes">Routes</a>
                   </li>
-                  {% if current_user.is_authenticated %}
                   <li class="nav-item">
                     <a class="nav-link {% block active_users %}{% endblock %}" href="/users">Users</a>
                   </li>
