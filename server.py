@@ -203,6 +203,37 @@ def user(user_id):
     routes = db.get_routes_by_userid(user_id)
     return render_template("user.html", user = user, routes = routes, img = img)
 
+
+@app.route("/users/<int:user_id>/update", methods=['GET'])
+def user_update(user_id):
+    db = Database(url)
+    user = db.get_user(user_id)
+    img = None
+    if user.img_url is not None:
+        img = b64encode(user.img_url).decode("UTF-8'")
+    routes = db.get_routes_by_userid(user_id)
+    return render_template("user_update.html", user = user, routes = routes, img = img)
+
+@app.route("/users/<int:user_id>/updateuser", methods=['POST'])
+def user_update_save(user_id):
+    username = request.form.get("username")
+    name = request.form.get("name")
+    surname = request.form.get("surname")
+    email = request.form.get("email")
+    img_url = request.files["photo"]
+
+    try:
+        with dbapi2.connect(url) as connection:
+            cursor = connection.cursor()
+            statement = "UPDATE users SET username = %s, name = %s, surname =%s, email = %s, img_url =%s WHERE id = %s"
+            data = [username, name, surname, email, img_url.read(), user_id]
+            cursor.execute(statement, data)
+            cursor.close()
+    except Exception as err:
+        print("Add user error: ", err)
+
+    return redirect(url_for('user', user_id = user_id))
+
 @app.route("/users")
 def users():
     db = Database(url)

@@ -1,0 +1,44 @@
+{% extends "layoutbl.html" %}
+{% block title %}Register{% endblock %}
+{% block active_login %}active{% endblock %}
+{% block stylesheet %}login.css{% endblock %}
+{% block content %}
+
+<form class="form-signin" action="updateuser" method="POST" enctype="multipart/form-data">
+    <img class="mb-4" src="/static/images/logo250x67.png" alt="istanbulin24" >
+    <h1 class="h3 mb-3 font-weight-normal">Update Profile</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-warning" role="alert">
+        {{messages[0]}}
+      </div>
+    {% endif %}
+    {% endwith %}
+    <label for="inputEmail" class="sr-only">Username</label>
+    <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus name="username" value={{user.username}}>
+    <label for="inputEmail" class="sr-only">Email</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus name="email" value={{user.email}}>
+    <label for="inputPassword" class="sr-only">Name</label>
+    <input type="text" id="inputPassword" class="form-control" placeholder="Name" required name="name" value={{user.name}}>
+    <label for="inputPassword" class="sr-only">Surname</label>
+    <input type="text" id="inputPassword" class="form-control" placeholder="Surname" required name="surname" value={{user.surname}}>
+    <label for="inputPassword" class="sr-only">Profile Photo</label>
+
+    <div class="profile-img">
+        {% if img != None %}
+        <img src="data:;base64,{{ img }}" style="width:100px;
+        height:100px;
+        object-fit:cover;
+        margin-bottom: 1rem;"/>
+        {% else %}
+        <img src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" style="width:100px;
+        height:100px;
+        object-fit:cover;"/>
+        {% endif %}
+    </div>
+
+    <input type="file" id="photo" class="form-control" placeholder="photo" required name="photo">
+    <button class="btn btn-outline-primary " type="submit">Update</button>
+
+  </form>
+{% endblock %}  
