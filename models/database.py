@@ -264,14 +264,10 @@ class Database:
         try:
             with dbapi2.connect(self.url) as connection:
                 cursor = connection.cursor()
-                statement = "SELECT score FROM route_score WHERE route_id = %s"
-                data = [route_id]
+                statement = "SELECT (CAST(SUM(score) AS DECIMAL)/COUNT(route_id = %s)) AS total FROM route_score WHERE route_id = %s GROUP BY route_id"
+                data = [route_id, route_id]
                 cursor.execute(statement, data)
-                scores = cursor.fetchall()
-                score = 0
-                for x in scores:
-                    score = score + x[0]
-                score = (score/len(scores))
+                score = cursor.fetchone()[0]
                 score = round(score, 2)
                 cursor.close()
                 return score
