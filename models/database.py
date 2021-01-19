@@ -235,7 +235,7 @@ class Database:
 
     def rate_route(self, route_id, user_id, score):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(url) as connection:
                 cursor = connection.cursor()
                 statement = "INSERT INTO route_score (user_id, route_id, score) VALUES (%s, %s, %s)"
                 data = [user_id, route_id, score]
@@ -247,7 +247,7 @@ class Database:
 
     def check_user_rated_route(self, route_id, user_id):
         try:
-            with dbapi2.connect(dbname="postgres",user="postgres",password="1",host="localhost") as connection:
+            with dbapi2.connect(url) as connection:
                 cursor = connection.cursor()
                 statement = "SELECT * FROM route_score WHERE user_id = %s AND route_id = %s"
                 data = [user_id, route_id]
