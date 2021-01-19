@@ -94,12 +94,9 @@ def route_update(route_id):
     user = db.get_user(route.user_id)
     activities = db.get_all_activities()
     img = None
-    curr_userid = None
-    if current_user.id is not None:
-        curr_userid = current_user.id
     if route.img_url is not None:
         img = b64encode(route.img_url).decode("UTF-8'")
-    return render_template("route_update.html", route = route, user = user, activities = activities, img = img, curr_userid = curr_userid)
+    return render_template("route_update.html", route = route, user = user, activities = activities, img = img)
 
 @app.route("/routes/<int:route_id>/updateroute", methods=['POST'])
 def route_update_save(route_id):
