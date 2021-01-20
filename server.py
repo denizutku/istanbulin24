@@ -290,7 +290,7 @@ def users():
 
 @app.route("/users/<int:user_id>/delete", methods=['GET'])
 def delete_user(user_id):
-    db = Database()
+    db = Database(url)
     db.delete_user(user_id)
     return redirect(url_for('users'))
 
